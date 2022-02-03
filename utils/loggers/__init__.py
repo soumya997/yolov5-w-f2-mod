@@ -50,7 +50,7 @@ class Loggers():
         self.best_keys = ['best/epoch', 'best/precision', 'best/recall', 'best/mAP_0.5', 'best/mAP_0.5:0.95',"best/F2"]
         for k in LOGGERS:
             setattr(self, k, None)  # init empty logger dictionary
-        self.csv = False  # always log to csv
+        self.csv = True  # always log to csv
 
         # Message
         if not wandb:
