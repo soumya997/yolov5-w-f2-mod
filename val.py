@@ -173,7 +173,7 @@ def run(data,
     confusion_matrix = ConfusionMatrix(nc=nc)
     names = {k: v for k, v in enumerate(model.names if hasattr(model, 'names') else model.module.names)}
     class_map = coco80_to_coco91_class() if is_coco else list(range(1000))
-    s = ('%20s' + '%11s' * 6) % ('Class', 'Images', 'Labels', 'P', 'R', 'mAP@.5', 'mAP@.5:.95',"f2")
+    s = ('%20s' + '%11s' * 6) % ('Class', 'Images', 'Labels', 'P', 'R', 'F2', 'mAP@.5')
     dt, p, r, f2, mp, mr, map50, map = [0.0, 0.0, 0.0], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
     loss = torch.zeros(3, device=device)
     jdict, stats, ap, ap_class = [], [], [], []
@@ -264,7 +264,10 @@ def run(data,
     # Print results
     pf = '%20s' + '%11i' * 2 + '%11.3g' * 4  # print format
     # LOGGER.info(pf % ('all', seen, nt.sum(), mp, mr, map50, map))
-    LOGGER.info(pf % ('all', seen, nt.sum(), mp, mr, map50, map, f2))
+    # LOGGER.info(pf % ('all', seen, nt.sum(), mp, mr, map50, map, f2))
+    LOGGER.info(pf % ('all', seen, nt.sum(), mp, mr, f2, map50))
+
+
 
     # Print results per class
     if (verbose or (nc < 50 and not training)) and nc > 1 and len(stats):
